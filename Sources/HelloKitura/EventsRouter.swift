@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  EventsRouter.swift
 //  
 //
 //  Created by Bohdan Koshyrets on 10/16/19.
@@ -7,16 +7,19 @@
 
 import Kitura
 import Foundation
+import LoggerAPI
+
+struct Event: Codable {
+    let timeReceived: Date
+    let rawEvent: String
+}
+
+var array: [String] = .init()
+var database: [Event] = .init()
 
 func initializeEventsRoutes(app: App) {
     
     app.router.get("/handler", handler: getEvents)
-    
-    app.router.post("/api/report/hydra_kit") { request, response, next in
-        let payload = try request.readString()
-        array.append(payload!)
-        next()
-    }
     
     app.router.get("/events") { request, response, next in
         if array.isEmpty {
@@ -33,6 +36,8 @@ func initializeEventsRoutes(app: App) {
     
     app.router.delete("/events") { request, response, next in
         array.removeAll()
+        database.removeAll()
+        
         if array.isEmpty {
             response.statusCode = .noContent
             next()
@@ -42,13 +47,31 @@ func initializeEventsRoutes(app: App) {
             next()
         }
     }
-    
+        
+    app.router.post("/api/report/hydra_kit") { request, response, next in
+        do {
+            let payload = try request.readString()
+            array.append(payload ?? "\n")
+            
+            let event = Event(timeReceived: Date(), rawEvent: payload ?? "")
+            database.append(event)
+            
+            response.statusCode = .OK
+            response.send(event)
+            next()
+            
+        } catch {
+            Log.error("Could not read string from request: "
+                + String(describing: error.localizedDescription)
+            )
+        }
+    }
 }
 
-private func getEvents(completion: ([String]?, RequestError?) -> Void) {
-    if array.isEmpty {
+private func getEvents(completion: ([Event]?, RequestError?) -> Void) {
+    if database.isEmpty {
         return completion(nil, .noContent)
     } else {
-        return completion(["response"], .ok)
+        return completion(database, .ok)
     }
 }
