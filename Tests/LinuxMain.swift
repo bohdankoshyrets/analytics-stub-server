@@ -1,7 +1,7 @@
 import XCTest
 
-import HelloKituraTests
+import AnalyticsServerTests
 
 var tests = [XCTestCaseEntry]()
-tests += HelloKituraTests.allTests()
+tests += AnalyticsServerTests.allTests()
 XCTMain(tests)

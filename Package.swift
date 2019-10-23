@@ -11,10 +11,10 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "HelloKitura",
+            name: "AnalyticsServer",
             dependencies: ["Kitura"]),
         .testTarget(
-            name: "HelloKituraTests",
-            dependencies: ["HelloKitura"]),
+            name: "AnalyticsServerTests",
+            dependencies: ["AnalyticsServer"]),
     ]
 )
