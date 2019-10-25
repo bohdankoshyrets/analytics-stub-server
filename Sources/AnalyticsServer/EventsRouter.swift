@@ -21,6 +21,15 @@ func initializeEventsRoutes(app: App) {
     
     app.router.get("/handler", handler: getEvents)
     
+    app.router.get("/") { request, response, next in
+        response.statusCode = .OK
+        response.send("Analytics server v 1.1\n\n")
+        
+        response.send("Events in memory: \(database.count)\n")
+        response.send(database)
+        next()
+    }
+
     app.router.get("/events") { request, response, next in
         if array.isEmpty {
             response.statusCode = .noContent
