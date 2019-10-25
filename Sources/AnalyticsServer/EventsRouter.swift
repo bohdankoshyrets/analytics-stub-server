@@ -27,9 +27,8 @@ func initializeEventsRoutes(app: App) {
         
         response.send("Events in memory: \(database.count)\n")
         for (index, event) in database.enumerated() {
-            response.send("\t \(index). time: \(event.timeReceived), event: \(event.rawEvent)")
+            response.send("\t \(index+1). time: \(event.timeReceived), event: \(event.rawEvent)")
         }
-//        response.send(database)
         next()
     }
 
