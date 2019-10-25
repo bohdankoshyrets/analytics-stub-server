@@ -1,9 +1,9 @@
-FROM swift:5.0.2-slim
+FROM ibmcom/swift-ubuntu-runtime:5.0.1
 LABEL maintainer="IBM Swift Engineering at IBM Cloud"
-LABEL Description="Template Dockerfile that extends the swift:slim image."
+LABEL Description="Template Dockerfile that extends the ibmcom/swift-ubuntu-runtime image."
 
 # We can replace this port with what the user wants
-EXPOSE 8080
+EXPOSE 8083
 
 # Default user if not provided
 ARG bx_dev_user=root
