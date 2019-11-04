@@ -25,7 +25,7 @@ public class App {
     
     public func run() {
         postInit()
-        Kitura.addHTTPServer(onPort: 8083, with: router)
+        Kitura.addHTTPServer(onPort: 8080, with: router)
         Kitura.run()
 
     }

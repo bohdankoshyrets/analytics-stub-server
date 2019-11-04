@@ -2,8 +2,10 @@
 
 NAME_BUILD="analytics-server-build"
 NAME_RUN="analytics-server-run"
-PORT=8083
+PORT=8080
 OUTSIDE_PORT=8083
+
+set -e
 
 ## Get the latest changes
 # git reset --hard
